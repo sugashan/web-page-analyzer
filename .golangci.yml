@@ -1,0 +1,15 @@
+linters:
+  enable:
+    - golint
+    - errcheck
+    - staticcheck
+    - unused
+    - gocritic
+    - gocyclo
+issues:
+  exclude-rules:
+    - path: _test\.go
+      text: "some-specific-message-to-ignore"
+run:
+  tests: true
+  timeout: 5m
