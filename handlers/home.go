@@ -1,3 +1,4 @@
+// Package handlers for API.
 package handlers
 
 import (
@@ -7,11 +8,18 @@ import (
 	"webpageanalyzer/models"
 )
 
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
+// HomeHandler handles home requests
+func HomeHandler(w http.ResponseWriter, _ *http.Request) {
 	tmpl, err := template.ParseFiles("templates/index.html")
 	if err != nil {
 		log.Fatalf("Error loading template: %v", err)
 	}
 	data := models.PageData{}
-	tmpl.Execute(w, data)
+	err = tmpl.Execute(w, data)
+
+	if err != nil {
+		http.Error(w, "Error rendering template", http.StatusInternalServerError)
+		log.Printf("Template execution error: %v", err)
+		return
+	}
 }

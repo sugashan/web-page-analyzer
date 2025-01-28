@@ -1,3 +1,4 @@
+// Package handlers for WebPage Analyzer API.
 package handlers
 
 import (
@@ -31,7 +32,7 @@ func analyzeURL(urlToAnalyze string) (map[string]interface{}, error) {
 	log.Println("Found the Page")
 
 	content := string(buffer)
-	htmlVersion := utils.FindHtmlVersion(content)
+	htmlVersion := utils.FindHTMLVersion(content)
 
 	doc, err := goquery.NewDocumentFromReader(resp.Body)
 	if err != nil {
@@ -59,6 +60,7 @@ func analyzeURL(urlToAnalyze string) (map[string]interface{}, error) {
 	return results, nil
 }
 
+// WebPageeHandler handles for Web Page Analyzer Request
 func WebPageeHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Request received to analyze")
 
@@ -88,7 +90,13 @@ func WebPageeHandler(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("Completed Analyze. Results.")
 
-	tmpl.Execute(w, models.PageData{
+	err = tmpl.Execute(w, models.PageData{
 		Results: results,
 	})
+
+	if err != nil {
+		http.Error(w, "Error rendering template", http.StatusInternalServerError)
+		log.Printf("Template execution error: %v", err)
+		return
+	}
 }

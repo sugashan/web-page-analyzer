@@ -2,7 +2,7 @@
 GO = go
 BINARY_NAME = web-page-analyzer
 BUILD_DIR = build
-LINTER = golangci-lint
+LINTER = revive
 
 # Default target when running 'make'
 all: build
@@ -35,7 +35,7 @@ install:
 # Lint the project
 lint:
 	@echo "Running linter..."
-	$(LINTER) run
+	revive -formatter friendly ./...
 
 # Run modd to watch for changes and rebuild automatically
 modd:
