@@ -9,9 +9,15 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", handlers.HomeHandler)
-	http.HandleFunc("/analyze", handlers.WebPageeHandler)
+
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("GET /", handlers.HomeHandler)
+
+	mux.HandleFunc("POST /api/v1/analysis", handlers.WebPageAnalyzeHandler)
 
 	fmt.Println("Starting server on :8080...")
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	if err := http.ListenAndServe("localhost:8080", mux); err != nil {
+		log.Fatal(err.Error())
+	}
 }

@@ -10,8 +10,8 @@ import (
 	"webpageanalyzer/service"
 )
 
-// WebPageeHandler handles for Web Page Analyzer Request
-func WebPageeHandler(w http.ResponseWriter, r *http.Request) {
+// WebPageAnalyzeHandler handles for Web Page Analyzer Request
+func WebPageAnalyzeHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("Request received to analyze")
 
 	if r.Method != http.MethodPost {
