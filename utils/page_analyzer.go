@@ -10,18 +10,20 @@ import (
 )
 
 // FindHTMLVersion Finds HTML Version
-func FindHTMLVersion(content string) string {
+func FindHTMLVersion(htmlContent string) string {
 	switch {
-	case strings.Contains(content, "<!DOCTYPE html>") || strings.Contains(content, "<!docttype html>"):
-		return "HTML 5"
-	case strings.Contains(content, "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\">"):
+	case strings.Contains(htmlContent, "html"):
+		return "HTML5"
+	case strings.Contains(htmlContent, "xhtml 1.0"):
+		return "XHTML 1.0"
+	case strings.Contains(htmlContent, "html 4.01"):
 		return "HTML 4.01"
-	case strings.Contains(content, "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\">"):
-		return "XHTML 1.0 Strict"
-	default:
-		return "Unknown"
+	case strings.Contains(htmlContent, "html 3.2"):
+		return "HTML 3.2"
+	case strings.Contains(htmlContent, "html 2.0"):
+		return "HTML 2.0"
 	}
-
+	return "Unknown"
 }
 
 // GetTitle Finds Document Title

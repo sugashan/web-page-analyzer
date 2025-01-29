@@ -87,3 +87,4 @@ go test
 - Data Persistance & Caching for history & Performance. 
 - Include Page Performance metrics. e.g: latency, load time.
 - CI/CD for this Project. e.g: Automated build, test(+static-sonar) and deploy.
+- Dynamically generated content???
