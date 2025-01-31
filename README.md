@@ -33,6 +33,14 @@ To manage project dependencies, you will need to initialize Go modules if you ha
    go mod tidy
    ```
 
+External Dependencies,
+- github.com/PuerkitoBio/goquery
+- github.com/chromedp/chromedp
+- github.com/stretchr/testify
+
+To Install indiviually,
+`go get <dependency>`
+
 ### Build & Run
 
 Run below command.
