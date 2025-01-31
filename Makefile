@@ -25,7 +25,7 @@ clean:
 # Run tests
 test:
 	@echo "Running tests..."
-	$(GO) test ./...
+	$(GO) test -v ./...
 
 # Install dependencies (for Go modules)
 install:

@@ -49,6 +49,11 @@ go run main.go
 
 Open `http://localhost:8080/` in browser to confirm.
 
+### Test
+
+`go test -v ./...` to run unit tests.
+`go test -cover ./...` for coverage.
+
 ### Usage
 
 For a given URL `https://www.example.com`, Results:

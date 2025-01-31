@@ -7,15 +7,19 @@ import (
 	"log"
 	"strings"
 	"time"
+	"webpageanalyzer/config"
 	"webpageanalyzer/utils"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/chromedp/chromedp"
 )
 
+var fetchHTMLFunc = fetchHTML
+
 // fetchHTML uses chromedp to get the raw HTML content of the page as pages could contain dynamic parts with javaScript.
 func fetchHTML(urlToAnalyze string) (string, error) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	timeout := config.GetRequestTimeout()
+	ctx, cancel := context.WithTimeout(context.Background(), timeout*time.Second)
 	defer cancel()
 
 	ctx, cancel = chromedp.NewContext(ctx)

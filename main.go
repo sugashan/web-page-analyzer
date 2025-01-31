@@ -5,10 +5,15 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"webpageanalyzer/config"
 	"webpageanalyzer/handlers"
 )
 
 func main() {
+	err := config.LoadConfig("config.json")
+	if err != nil {
+		log.Fatalf("Failed to load config: %v", err)
+	}
 
 	mux := http.NewServeMux()
 
