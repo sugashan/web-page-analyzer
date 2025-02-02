@@ -96,8 +96,12 @@ go test
 
 ## Possible Improvements
 
+- Use Goroutines to parellelize data extraction from html document like title, links etc.
+- Pooling workers for accessible link check.
+- Data Persistance/Caching for history & Performance. 
+
+- Streaming API response. some fetch are easy compare check broken links. to improve user experience, we can stream data from API.
 - FrontEnd Improvements. e.g: React or Styling.
-- Data Persistance & Caching for history & Performance. 
 - Include Page Performance metrics. e.g: latency, load time.
 - CI/CD for this Project. e.g: Automated build, test(+static-sonar) and deploy.
-- Dynamically generated content???
+- Load balancing and distribute requests.
