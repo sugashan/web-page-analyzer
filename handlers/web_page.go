@@ -27,22 +27,24 @@ func WebPageAnalyzeHandler(w http.ResponseWriter, r *http.Request) {
 
 	log.Println("Analyzing : " + url)
 
-	results, err := service.AnalyzeURL(url)
-	if err != nil {
-		http.Error(w, fmt.Sprintf("Error analyzing URL: %v", err), http.StatusInternalServerError)
-		return
-	}
-
 	tmpl, err := template.ParseFiles("templates/results.html")
 	if err != nil {
 		log.Fatalf("Error loading template: %v", err)
 	}
 
+	results, pageErr := service.AnalyzeURL(url)
+
 	log.Println("Completed Analyze. Results.")
 
-	err = tmpl.Execute(w, models.PageData{
+	data := models.PageData{
 		Results: results,
-	})
+	}
+
+	if pageErr != nil {
+		data.Error = fmt.Sprintf("Error analyzing URL: %v", pageErr)
+	}
+
+	err = tmpl.Execute(w, data)
 
 	if err != nil {
 		http.Error(w, "Error rendering template", http.StatusInternalServerError)

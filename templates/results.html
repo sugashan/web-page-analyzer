@@ -53,12 +53,15 @@
 </head>
 <body>
     <div class="container">
+
+        <h1>Web Page Analysis Results</h1>
+        
         {{if .Error}}
             <h2 class="error">Error:</h2>
             <p class="error">{{.Error}}</p>
-        {{end}}
+        
+        {{else}}
 
-        <h1>Web Page Analysis Results</h1>
         <p><strong>URL:</strong> {{.Results.URL}}</p>
         <p><strong>HTML Version:</strong> {{.Results.HTMLVersion}}</p>
         <p><strong>Title:</strong> {{.Results.Title}}</p>
@@ -74,6 +77,8 @@
         <p><strong>External Links:</strong> {{.Results.ExternalLinks}}</p>
         <p><strong>Inaccessible Links:</strong> {{.Results.InaccessibleLinks}}</p>
         <p><strong>Login Form Present:</strong> {{.Results.HasLoginForm}}</p>
+
+        {{end}}
 
         <form action="/" method="GET">
             <button type="submit">Analyze Another Page</button>

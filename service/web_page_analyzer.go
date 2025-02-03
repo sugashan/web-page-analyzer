@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"net/http"
 	"strings"
 	"time"
 	"webpageanalyzer/config"
@@ -16,6 +17,17 @@ import (
 
 // fetchHTML uses chromedp to get the raw HTML content of the page as pages could contain dynamic parts with javaScript.
 func fetchHTML(urlToAnalyze string) (string, error) {
+	resp, err := http.Get(urlToAnalyze)
+	if err != nil {
+		return "", fmt.Errorf("failed to make HTTP request: %w", err)
+	}
+	defer resp.Body.Close()
+
+	// Handle non-2xx responses
+	if resp.StatusCode >= 400 {
+		return "", fmt.Errorf(" HTTP %d - %s", resp.StatusCode, http.StatusText(resp.StatusCode))
+	}
+
 	timeout := config.GetRequestTimeout()
 
 	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(timeout)*time.Second)
@@ -26,12 +38,12 @@ func fetchHTML(urlToAnalyze string) (string, error) {
 
 	var htmlContent string
 
-	err := chromedp.Run(ctx,
+	err = chromedp.Run(ctx,
 		chromedp.Navigate(urlToAnalyze),
+		chromedp.WaitVisible("body"),
 		chromedp.OuterHTML("html", &htmlContent),
 	)
 	if err != nil {
-		log.Println(err)
 		return "", err
 	}
 
