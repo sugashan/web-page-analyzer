@@ -13,6 +13,13 @@ The application allows users to input a URL through a web interface and returns 
 
 ## Setup Instructions
 
+### Components
+- handlers - Handle incoming http requests.
+- config - Responsible for Application Config.
+- models - Data transfer Obj or Structures.
+- service - Handle Business logic.
+- templates - HTML template dir
+- utils - Utility files, functions.
 
 ### Prerequisites
 To run this project, you'll need:
@@ -67,7 +74,7 @@ Open `http://localhost:8080/` in browser to confirm.
 For a given URL `https://www.example.com`, Results:
 
 ```
-Analysis Results
+Web Page Analysis Results
 
 URL: https://www.example.com
 HTML Version: HTML5
@@ -82,6 +89,10 @@ Inaccessible Links: 2
 Login Form Present: No
 ```
 
+### containerization
+
+Build Image - `docker build -t web-analyzer .`
+Run - `docker run -p 8080:8080 --rm web-analyzer`
 
 ### Run Test
 

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"sync"
 
 	"github.com/PuerkitoBio/goquery"
 )
@@ -43,7 +44,11 @@ func CountHeadings(doc *goquery.Document) map[string]int {
 
 // CountLinks Counts Links in Document
 func CountLinks(urlToAnalyze string, doc *goquery.Document) (int, int, int) {
-	internalLinks, externalLinks, inaccessibleLinks := 0, 0, 0
+	internalLinks, externalLinks := 0, 0
+
+	inaccessibleLinks := make(chan int, 100)
+	var wg sync.WaitGroup
+
 	parsedURL, _ := url.Parse(urlToAnalyze)
 
 	doc.Find("a").Each(func(_ int, s *goquery.Selection) {
@@ -63,12 +68,27 @@ func CountLinks(urlToAnalyze string, doc *goquery.Document) (int, int, int) {
 			externalLinks++
 		}
 
-		resp, err := http.Get(href)
-		if err != nil || resp.StatusCode != http.StatusOK {
-			inaccessibleLinks++
-		}
+		// parellal link access check.
+		wg.Add(1)
+		go func(link string) {
+			defer wg.Done()
+			if !isLinkAccessible(link) {
+				inaccessibleLinks <- 1
+			}
+		}(href)
 	})
-	return internalLinks, externalLinks, inaccessibleLinks
+
+	// Wait for all goroutines to finish
+	wg.Wait()
+	close(inaccessibleLinks)
+
+	// Count inaccessible links from channel
+	inaccessibleCount := 0
+	for range inaccessibleLinks {
+		inaccessibleCount++
+	}
+
+	return internalLinks, externalLinks, inaccessibleCount
 }
 
 // HasLoginForm Finds Login Form
@@ -80,4 +100,14 @@ func HasLoginForm(doc *goquery.Document) bool {
 		}
 	})
 	return hasLoginForm
+}
+
+// isLinkAccessible checks if a link is accessible
+func isLinkAccessible(link string) bool {
+	resp, err := http.Get(link)
+	if err != nil || resp.StatusCode != http.StatusOK {
+		return false
+	}
+	defer resp.Body.Close()
+	return true
 }
