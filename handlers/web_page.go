@@ -25,7 +25,7 @@ func WebPageAnalyzeHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	log.Println("Analyzing :" + url)
+	log.Println("Analyzing : " + url)
 
 	results, err := service.AnalyzeURL(url)
 	if err != nil {

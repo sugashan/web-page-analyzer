@@ -3,7 +3,6 @@ package config
 import (
 	"os"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -23,7 +22,7 @@ func TestLoadConfig_ValidFile(t *testing.T) {
 	err = LoadConfig(tempFile)
 	assert.NoError(t, err)
 	assert.Equal(t, 15, AppConfig.RequestTimeout)
-	assert.Equal(t, 15*time.Second, GetRequestTimeout())
+	assert.Equal(t, 15, GetRequestTimeout())
 }
 
 // Test loading config from a missing file

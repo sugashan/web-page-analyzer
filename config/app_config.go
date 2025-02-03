@@ -3,7 +3,6 @@ package config
 import (
 	"encoding/json"
 	"os"
-	"time"
 )
 
 type Config struct {
@@ -30,6 +29,6 @@ func LoadConfig(filename string) error {
 }
 
 // GetRequestTimeout returns the timeout as a time.Duration
-func GetRequestTimeout() time.Duration {
-	return time.Duration(AppConfig.RequestTimeout) * time.Second
+func GetRequestTimeout() int {
+	return AppConfig.RequestTimeout
 }

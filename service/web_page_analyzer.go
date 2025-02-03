@@ -14,12 +14,11 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-var fetchHTMLFunc = fetchHTML
-
 // fetchHTML uses chromedp to get the raw HTML content of the page as pages could contain dynamic parts with javaScript.
 func fetchHTML(urlToAnalyze string) (string, error) {
 	timeout := config.GetRequestTimeout()
-	ctx, cancel := context.WithTimeout(context.Background(), timeout*time.Second)
+
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(timeout)*time.Second)
 	defer cancel()
 
 	ctx, cancel = chromedp.NewContext(ctx)
@@ -32,6 +31,7 @@ func fetchHTML(urlToAnalyze string) (string, error) {
 		chromedp.OuterHTML("html", &htmlContent),
 	)
 	if err != nil {
+		log.Println(err)
 		return "", err
 	}
 

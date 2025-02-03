@@ -3,33 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analysis Results</title>
+    <title>Page Analysis Results</title>
+    <style>
+        body {
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 60%;
+            text-align: center;
+        }
+        h1, h2 {
+            text-align: center;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 5px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    {{if .Error}}
-        <h2 style="color: red;">Error:</h2>
-        <p style="color: red;">{{.Error}}</p>
-    {{end}}
-
-
-    <h1>Analysis Results</h1>
-    <p><strong>URL:</strong> {{.Results.URL}}</p>
-    <p><strong>HTML Version:</strong> {{.Results.HTMLVersion}}</p>
-    <p><strong>Title:</strong> {{.Results.Title}}</p>
-    <h2>Headings</h2>
-    <ul>
-        {{range $key, $value := .Results.Headings}}
-        <li>{{$key}}: {{$value}}</li>
+    <div class="container">
+        {{if .Error}}
+            <h2 class="error">Error:</h2>
+            <p class="error">{{.Error}}</p>
         {{end}}
-    </ul>
-    <p><strong>Internal Links:</strong> {{.Results.InternalLinks}}</p>
-    <p><strong>External Links:</strong> {{.Results.ExternalLinks}}</p>
-    <p><strong>Inaccessible Links:</strong> {{.Results.InaccessibleLinks}}</p>
-    <p><strong>Login Form Present:</strong> {{.Results.HasLoginForm}}</p>
-    
 
-    <form action="/" method="GET">
-        <button type="submit">Analyze Another Page</button>
-    </form>
+        <h1>Web Page Analysis Results</h1>
+        <p><strong>URL:</strong> {{.Results.URL}}</p>
+        <p><strong>HTML Version:</strong> {{.Results.HTMLVersion}}</p>
+        <p><strong>Title:</strong> {{.Results.Title}}</p>
+
+        <h2>Headings</h2>
+        <ul>
+            {{range $key, $value := .Results.Headings}}
+            <li>{{$key}}: {{$value}}</li>
+            {{end}}
+        </ul>
+
+        <p><strong>Internal Links:</strong> {{.Results.InternalLinks}}</p>
+        <p><strong>External Links:</strong> {{.Results.ExternalLinks}}</p>
+        <p><strong>Inaccessible Links:</strong> {{.Results.InaccessibleLinks}}</p>
+        <p><strong>Login Form Present:</strong> {{.Results.HasLoginForm}}</p>
+
+        <form action="/" method="GET">
+            <button type="submit">Analyze Another Page</button>
+        </form>
+    </div>
 </body>
 </html>
