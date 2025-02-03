@@ -96,7 +96,7 @@ go test
 
 ## Possible Improvements
 
-- Use Goroutines to parellelize data extraction from html document like title, links etc.
+- Use Goroutines to parellelize data extraction from html document like title, links etc. Responsiveness
 - Pooling workers for accessible link check.
 - Data Persistance/Caching for history & Performance. 
 
