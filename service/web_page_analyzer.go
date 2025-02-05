@@ -40,7 +40,6 @@ func fetchHTML(urlToAnalyze string) (string, error) {
 
 	err = chromedp.Run(ctx,
 		chromedp.Navigate(urlToAnalyze),
-		chromedp.WaitVisible("body"),
 		chromedp.OuterHTML("html", &htmlContent),
 	)
 	if err != nil {
@@ -69,11 +68,15 @@ func AnalyzeURL(urlToAnalyze string) (map[string]interface{}, error) {
 	}
 
 	title := utils.GetTitle(doc)
+	log.Println("Title extracted.")
 
+	log.Println("Counting the headings.")
 	headings := utils.CountHeadings(doc)
 
 	internalLinks, externalLinks, inaccessibleLinks := utils.CountLinks(urlToAnalyze, doc)
+	log.Println("Counting link Completed")
 
+	log.Println("Looking for login page.")
 	hasLoginForm := utils.HasLoginForm(doc)
 
 	results := map[string]interface{}{
