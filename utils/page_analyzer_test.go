@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"io"
 	"strings"
 	"testing"
 
@@ -8,17 +9,26 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func stringToReadCloser(s string) io.ReadCloser {
+	return io.NopCloser(strings.NewReader(s))
+}
+
 func TestFindHTMLVersion(t *testing.T) {
 	cases := []struct {
 		html     string
 		expected string
 	}{
 		{"<!DOCTYPE html>", "HTML5"},
-		{"<html></html>", "HTML5"},
+		{"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">", "HTML 4.01"},
+		{"<!DOCTYPE XHTML 1.0 Strict PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">", "XHTML"},
+		{"<html></html>", "Unknown"}, // No doctype provided
 	}
 
 	for _, tc := range cases {
-		assert.Equal(t, tc.expected, FindHTMLVersion(tc.html))
+		t.Run(tc.html, func(t *testing.T) {
+			reader := stringToReadCloser(tc.html)
+			assert.Equal(t, tc.expected, FindHTMLVersion(reader))
+		})
 	}
 }
 

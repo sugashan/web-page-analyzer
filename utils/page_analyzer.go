@@ -2,29 +2,43 @@
 package utils
 
 import (
+	"io"
 	"net/http"
 	"net/url"
 	"strings"
 	"sync"
 
 	"github.com/PuerkitoBio/goquery"
+	"golang.org/x/net/html"
 )
 
 // FindHTMLVersion Finds HTML Version
-func FindHTMLVersion(htmlContent string) string {
-	switch {
-	case strings.Contains(htmlContent, "html"):
-		return "HTML5"
-	case strings.Contains(htmlContent, "xhtml 1.0"):
-		return "XHTML 1.0"
-	case strings.Contains(htmlContent, "html 4.01"):
-		return "HTML 4.01"
-	case strings.Contains(htmlContent, "html 3.2"):
-		return "HTML 3.2"
-	case strings.Contains(htmlContent, "html 2.0"):
-		return "HTML 2.0"
+func FindHTMLVersion(body io.ReadCloser) string {
+	defer body.Close()
+	tokenizer := html.NewTokenizer(body)
+	for {
+		tokenType := tokenizer.Next()
+		switch tokenType {
+		case html.ErrorToken:
+			return "Unknown"
+		case html.DoctypeToken:
+			token := tokenizer.Token()
+			doctype := strings.ToLower(token.Data)
+
+			if strings.Contains(doctype, "html") {
+				if doctype == "html" {
+					return "HTML5"
+				} else if strings.Contains(doctype, "xhtml") {
+					return "XHTML"
+				} else if strings.Contains(doctype, "4.01") {
+					return "HTML 4.01"
+				} else if strings.Contains(doctype, "3.2") {
+					return "HTML 3.2"
+				}
+			}
+			return "Unknown Doctype: " + doctype
+		}
 	}
-	return "Unknown"
 }
 
 // GetTitle Finds Document Title
