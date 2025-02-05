@@ -38,3 +38,5 @@ coverage.out
 
 # Test output
 *.test
+
+web-page-analyzer.*
