@@ -58,9 +58,14 @@ go build .
 ```
 
 To Run,
+
+Create `config.json` file in the root level with below configuration.
 ```
-go run main.go
+{
+    "request_timeout": 10
+}
 ```
+Then,  `go run main.go or make run`
 
 Open `http://localhost:8080/` in browser to confirm.
 
