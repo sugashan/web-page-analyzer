@@ -41,9 +41,8 @@ To manage project dependencies, you will need to initialize Go modules if you ha
    ```
 
 External Dependencies,
-- github.com/PuerkitoBio/goquery
-- github.com/chromedp/chromedp
-- github.com/stretchr/testify
+- github.com/PuerkitoBio/goquery   # Parse and extract data from HTML Document.
+- github.com/stretchr/testify      # Unit Testing
 
 To Install indiviually,
 `go get <dependency>`
@@ -115,6 +114,7 @@ go test
 - Use Goroutines to parellelize data extraction from html document like title, links etc. Responsiveness
 - Pooling workers for accessible link check.
 - Data Persistance/Caching for history & Performance. 
+- Pages uses, Javascript. - use headless browser to execute Javascript and analyse HTML.
 
 - Streaming API response. some fetch are easy compare check broken links. to improve user experience, we can stream data from API.
 - FrontEnd Improvements. e.g: React or Styling.
