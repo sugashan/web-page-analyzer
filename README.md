@@ -47,6 +47,9 @@ External Dependencies,
 To Install indiviually,
 `go get <dependency>`
 
+### Make Integrated.
+`make help` will show available commands.
+
 ### Build & Run
 
 Run below command.
@@ -68,10 +71,6 @@ Then,  `go run main.go or make run`
 
 Open `http://localhost:8080/` in browser to confirm.
 
-### Test
-
-`go test -v ./...` to run unit tests.
-`go test -cover ./...` for coverage.
 
 ### Usage
 
@@ -93,21 +92,18 @@ Inaccessible Links: 2
 Login Form Present: No
 ```
 
-### containerization
-
-Build Image - `docker build -t web-analyzer .`
-Run - `docker run -p 8080:8080 --rm web-analyzer`
 
 ### Run Test
 
-```
-go test
-```
+`go test` Or `make test`
 
-###
+To Check Coverage `go test -cover -v ./...`
 
-## Make Integrated.
-`make help` will show available commands.
+
+### Containerization
+
+Build Image - `docker build -t web-analyzer .`
+Run - `docker run -p 8080:8080 --rm web-analyzer`
 
 ## Possible Improvements
 
