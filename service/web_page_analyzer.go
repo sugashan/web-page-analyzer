@@ -54,15 +54,11 @@ func AnalyzeURL(urlToAnalyze string) (map[string]interface{}, error) {
 	}
 
 	title := utils.GetTitle(doc)
-	log.Println("Title extracted.")
 
-	log.Println("Counting the headings.")
 	headings := utils.CountHeadings(doc)
 
 	internalLinks, externalLinks, inaccessibleLinks := utils.CountLinks(urlToAnalyze, doc)
-	log.Println("Counting link Completed")
 
-	log.Println("Looking for login page.")
 	hasLoginForm := utils.HasLoginForm(doc)
 
 	results := map[string]interface{}{
